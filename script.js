@@ -9,10 +9,6 @@ const btn3EL = $("#btn3");
 const btn4EL = $("#btn4");
 const btn5EL = $("#btn5");
 
-
-
-
-
 const cityEL = $("#displaycity");
 const dateEL = $("#displaydate");
 const iconEL = $("#displayicon");
@@ -26,7 +22,7 @@ searchbtnEL.on("click", (e) => {
     console.log("button pressed");
     const searchfor = inputEL.val();
     console.log(searchfor);
-    filldata(searchfor)
+    filldata(searchfor);
 });
 const getdata = async() => {
     console.log("step1 ");
@@ -46,8 +42,7 @@ const get5days = async(long, lat) => {
     if (long && lat) {
         console.log(`getting data for ${long}  ${lat}`);
         const response = await fetch(
-            `https://api.openweathermap.org/data/2.5/onecall?lat=${long}&lon=${lat}&exclude=current,minutely,hourly,alerts&units=metric&appid=${API_key}`,
-
+            `https://api.openweathermap.org/data/2.5/onecall?lat=${long}&lon=${lat}&exclude=current,minutely,hourly,alerts&units=metric&appid=${API_key}`
         );
         if (response.status === 200) {
             const data = await response.json();
@@ -195,6 +190,8 @@ btn5EL.on("click", async(e) => {
 //     } else {
 //         console.log("Failed to get SINGLEDATA line 150 ")
 //     }
+// `<img src="${mysrc}" alt="weather icon"  height="10px" width="10px"></img`
+
 
 //     write2cards(days5.daily);
 // });
@@ -204,19 +201,23 @@ const filldata = async(city) => {
     console.log(lat, lon);
     const days5 = await get5days(lat, lon);
     const singledata = await getonce(lat, lon);
-    console.log("Got data from getonce func ", singledata)
+    console.log("Got data from getonce func ", singledata);
     const temprature = await singledata.current.temp;
     const UVI = singledata.current.uvi;
     const windspeed = singledata.wind_speed;
     const humidity = singledata.current.humidity;
+    const myicon = singledata.current.weather[0].icon;
+    console.log("icon", myicon);
     const singledate = new Date(singledata.current.dt * 1000)
         .toLocaleString()
         .substring(1, 10);
 
     dateEL.html(`<h2 class="d-inline"> (${singledate})</h2>`);
-    console.log(" dateEL", dateEL)
+    console.log(" iconEL", iconEL);
     cityEL.html(`<h2 class="d-inline">${city}</h6>`);
     tempEL.html(`<h6 class="mt-3"> Temp:${temprature} C </h6>`);
+    const mysrc = `http://openweathermap.org/img/wn/${myicon}@2x.png`;
+    iconEL.html(`<img src="${mysrc}" alt="weather icon"  height="80px" width="80px"></img`);
     windEL.html(`<h6> Wind:${singledata.current.wind_speed} Kmph </h6>`);
     humidityEL.html(`<h6> Humidity:${singledata.current.humidity} % </h6>`);
     singledata.current.uvi < 3 ?
