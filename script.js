@@ -92,21 +92,22 @@ const getcoords = async(city) => {
 let cardEL = "";
 const startEL = $("#Start");
 
-const createcard = (mtdt, temp, wind_speed, humidity) => {
-    cardEL = `<div class="col flex-wrap">
+const createcard = (mtdt, temp, wind_speed, humidity, cardicon) => {
+    const mycardsrc = `http://openweathermap.org/img/wn/${cardicon}@2x.png`;
+    cardEL = `<div class="col flex-wrap cardclass">
     <div class="card mycard ">
-        <div   class="card-body =">
-            <h6 class="card-title">${mtdt}</h6>
-            <span  class="d-block fs-5"> 
-            ICON
+        <div   class="card-body p-0">
+            <h6 class="card-title p-1">${mtdt}</h6>
+            <span  class="d-block "> 
+            <img src="${mycardsrc}" alt="weather icon"  height="50px" width="50px"></img>
             </span>
-            <span class="d-block">
+            <span class="d-block mb-1">
             Temp: ${temp}°C
             </span>
-            <span class="d-block">
+            <span class="d-block mb-1">
             Wind: ${wind_speed} kmpH
             </span>
-            <span class="d-block">
+            <span class="d-block mb-1">
             Humidity: ${humidity} %
             </span>
 
@@ -118,15 +119,16 @@ const createcard = (mtdt, temp, wind_speed, humidity) => {
     startEL.append(cardEL);
 };
 const write2cards = (data) => {
+    $(".cardclass").remove()
     if (data) {
         console.log("write2cards", data);
         for (let day = 0; day < 5; day++) {
             const mydt = new Date(data[day].dt * 1000).toDateString();
-            const { temp, uvi, wind_speed, humidity } = data[day];
-
+            const { temp, uvi, wind_speed, humidity, weather } = data[day];
+            const cardicon = weather[0].icon
             console.log("UVI", uvi);
 
-            createcard(mydt, temp.day, wind_speed, humidity);
+            createcard(mydt, temp.day, wind_speed, humidity, cardicon);
         }
     }
 };
@@ -214,10 +216,10 @@ const filldata = async(city) => {
 
     dateEL.html(`<h2 class="d-inline"> (${singledate})</h2>`);
     console.log(" iconEL", iconEL);
-    cityEL.html(`<h2 class="d-inline">${city}</h6>`);
+    cityEL.html(`<h2 class="d-inline mb-0">${city}</h6>`);
     tempEL.html(`<h6 class="mt-3"> Temp:${temprature} C </h6>`);
     const mysrc = `http://openweathermap.org/img/wn/${myicon}@2x.png`;
-    iconEL.html(`<img src="${mysrc}" alt="weather icon"  height="80px" width="80px"></img`);
+    iconEL.html(`<img src="${mysrc}" alt="weather icon"  height="50px" width="50px"></img`);
     windEL.html(`<h6> Wind:${singledata.current.wind_speed} Kmph </h6>`);
     humidityEL.html(`<h6> Humidity:${singledata.current.humidity} % </h6>`);
     singledata.current.uvi < 3 ?
