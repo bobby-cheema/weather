@@ -74,7 +74,7 @@ let cardEL = "";
 const startEL = $("#Start");
 
 const createcard = (mtdt, temp, wind_speed, humidity, cardicon) => {
-    const mycardsrc = `http://openweathermap.org/img/wn/${cardicon}@2x.png`;
+    const mycardsrc = `https://openweathermap.org/img/wn/${cardicon}@2x.png`;
     cardEL = `<div class="col flex-wrap cardclass">
     <div class="card mycard ">
         <div   class="card-body p-0">
