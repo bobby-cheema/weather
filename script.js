@@ -162,7 +162,7 @@ const filldata = async(city) => {
 
     cityEL.html(`<h2 class="d-inline mb-0">${city}</h6>`);
     tempEL.html(`<h6 class="mt-3"> Temp:${temprature} C </h6>`);
-    const mysrc = `http://openweathermap.org/img/wn/${myicon}@2x.png`;
+    const mysrc = `https://openweathermap.org/img/wn/${myicon}@2x.png`;
     iconEL.html(
         `<img src="${mysrc}" alt="weather icon"  height="50px" width="50px"></img`
     );
